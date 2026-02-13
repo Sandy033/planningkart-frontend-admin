@@ -33,21 +33,26 @@ const Landing = () => {
                             <button className="btn btn-primary">Login as Admin</button>
                         </div>
 
-                        <div className="user-type-card card-glass slide-in-right" onClick={() => navigate('/login?role=organizer')}>
-                            <div className="card-icon">🎯</div>
-                            <h3>Organizer</h3>
-                            <p>Create and manage your events</p>
-                            <button className="btn btn-accent">Login as Organizer</button>
+                        <div className="user-type-card card-glass slide-in-right" style={{ cursor: 'default' }}>
+                            <div onClick={() => navigate('/login?role=organizer')} style={{ cursor: 'pointer' }}>
+                                <div className="card-icon">🎯</div>
+                                <h3>Organizer</h3>
+                                <p>Create and manage your events</p>
+                                <button className="btn btn-accent">Login as Organizer</button>
+                            </div>
+                            <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                                <span
+                                    className="link"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigate('/signup');
+                                    }}
+                                    style={{ fontSize: '0.9rem', color: '#fff', textDecoration: 'underline', position: 'relative', zIndex: 10 }}
+                                >
+                                    New Organizer? Sign up here
+                                </span>
+                            </div>
                         </div>
-                    </div>
-
-                    <div className="landing-footer">
-                        <p>
-                            Don't have an account?{' '}
-                            <span className="link" onClick={() => navigate('/signup')}>
-                                Sign up here
-                            </span>
-                        </p>
                     </div>
                 </div>
             </div>

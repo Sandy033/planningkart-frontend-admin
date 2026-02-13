@@ -17,10 +17,12 @@ const Login = () => {
     const suggestedRole = searchParams.get('role');
 
     useEffect(() => {
-        if (isAuthenticated && user) {
-            const redirectPath = user.role === 'admin' ? '/admin' : '/organizer';
-            navigate(redirectPath);
-        }
+        // Commenting out auto-redirect on mount to avoid conflicts with handleSubmit logic
+        // and potential infinite redirect loops if role case mismatches occur here.
+        // if (isAuthenticated && user) {
+        //     const redirectPath = user.role === 'admin' ? '/admin' : '/organizer';
+        //     navigate(redirectPath);
+        // }
     }, [isAuthenticated, user, navigate]);
 
     useEffect(() => {
@@ -38,7 +40,31 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(login(formData));
+        console.log('Attempting login with:', formData.email);
+
+        const resultAction = await dispatch(login(formData));
+        console.log('Login result action:', resultAction);
+
+        if (login.fulfilled.match(resultAction)) {
+            const user = resultAction.payload.user;
+            console.log('Login successful. User:', user);
+            console.log('User Role:', user.role);
+
+            const userRole = user.role.toUpperCase();
+            if (userRole === 'ADMIN' || userRole === 'ROLE_ADMIN' || userRole === 'SUPER_ADMIN') {
+                console.log('Redirecting to /admin');
+                navigate('/admin');
+            } else if (userRole === 'ORGANIZER' || userRole === 'ROLE_ORGANIZER' || userRole === 'EVENT_ORGANIZER') {
+                console.log('Redirecting to /organizer');
+                navigate('/organizer');
+            } else {
+                // Fallback
+                console.log('Unknown role, redirecting to /');
+                navigate('/');
+            }
+        } else {
+            console.error('Login failed:', resultAction.error);
+        }
     };
 
     return (
