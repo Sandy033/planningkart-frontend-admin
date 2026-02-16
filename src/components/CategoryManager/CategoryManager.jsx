@@ -102,7 +102,7 @@ const CategoryManager = () => {
             <div className="manager-header">
                 <h3>Event Categories</h3>
                 <button className="btn btn-primary" onClick={handleCreate}>
-                    ➕ Add Category
+                    Add Category
                 </button>
             </div>
 

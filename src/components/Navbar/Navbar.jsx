@@ -50,7 +50,7 @@ const Navbar = () => {
                 message="Are you sure you want to logout?"
                 confirmText="Logout"
                 cancelText="Cancel"
-                isDanger={false}
+                isDanger={true}
             />
         </>
     );
