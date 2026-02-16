@@ -6,7 +6,7 @@ export const fetchEvents = createAsyncThunk(
     'events/fetchEvents',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await api.get('/events');
+            const response = await api.get('/v1/events');
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to fetch events');
@@ -20,7 +20,7 @@ export const toggleEventStatus = createAsyncThunk(
     'events/toggleEventStatus',
     async ({ id, isActive }, { rejectWithValue }) => {
         try {
-            const response = await api.patch(`/events/${id}/status`, { isActive });
+            const response = await api.patch(`/v1/events/${id}/status`, { isActive });
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to update event status');

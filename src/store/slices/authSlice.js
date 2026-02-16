@@ -22,7 +22,7 @@ export const login = createAsyncThunk(
     'auth/login',
     async ({ email, password }, { rejectWithValue }) => {
         try {
-            const response = await api.post('/auth/login', { email, password });
+            const response = await api.post('/v1/auth/login', { email, password });
             // Backend returns flat structure: { email, role, token, id, expiresIn, type }
             // Map it to the structure expected by the frontend
             const { token, email: userEmail, role, id } = response.data;
@@ -43,7 +43,7 @@ export const signup = createAsyncThunk(
     'auth/signup',
     async (userData, { rejectWithValue }) => {
         try {
-            const response = await api.post('/auth/signup', { ...userData });
+            const response = await api.post('/v1/auth/signup', { ...userData });
             const { token, user } = response.data;
 
             // Store in localStorage
