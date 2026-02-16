@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signup, signupOrganizer, clearError } from '../../store/slices/authSlice';
-import '../Login/Login.css';
+import { signup, clearError } from '../../store/slices/authSlice';
+import '../Landing/Landing.css';
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -11,16 +11,9 @@ const Signup = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        role: 'organizer',
+        role: 'admin', // Defaulting to admin or user, since organizer is gone. Or maybe just remove role if backend handles it? Let's keep it clean.
         phoneNumber: '',
         dateOfBirth: '',
-        // Organization fields
-        organizationName: '',
-        contactEmail: '',
-        contactPhone: '',
-        description: '',
-        websiteUrl: '',
-        logoUrl: ''
     });
 
     const [validationError, setValidationError] = useState('');
@@ -63,21 +56,19 @@ const Signup = () => {
             return;
         }
 
-        const { confirmPassword, role, ...signupData } = formData;
+        const { confirmPassword, ...signupData } = formData;
 
-        let resultAction;
-        if (role === 'organizer') {
-            // Validate required organizer fields
-            if (!signupData.organizationName || !signupData.contactEmail) {
-                setValidationError('Organization Name and Contact Email are required');
-                return;
-            }
-            resultAction = await dispatch(signupOrganizer(signupData));
-        } else {
-            resultAction = await dispatch(signup({ ...signupData, name: `${formData.firstName} ${formData.lastName}` }));
-        }
+        // Ensure role is admin or whatever is appropriate for this open signup.
+        // If we only want admins, we can force it here.
+        // Assuming 'user' or 'admin' depending on requirements.
+        // Since this is an admin console, maybe we are signing up admins?
+        // Or maybe just generic users who need approval.
+        // Sticking to 'admin' as role if that's the intent of the app now.
+        // But the Implementation Plan said "Default all signups to the standard signup thunk".
 
-        if (signupOrganizer.fulfilled.match(resultAction) || signup.fulfilled.match(resultAction)) {
+        const resultAction = await dispatch(signup({ ...signupData, name: `${formData.firstName} ${formData.lastName}` }));
+
+        if (signup.fulfilled.match(resultAction)) {
             navigate('/');
         }
     };
@@ -203,71 +194,7 @@ const Signup = () => {
                             </select>
                         </div> */}
 
-                        {formData.role === 'organizer' && (
-                            <>
-                                <hr className="my-4" />
-                                <h4>Organization Details</h4>
-                                <div className="form-group">
-                                    <label className="form-label">Organization Name</label>
-                                    <input
-                                        type="text"
-                                        name="organizationName"
-                                        className="form-input"
-                                        value={formData.organizationName}
-                                        onChange={handleChange}
-                                        placeholder="Organization Name"
-                                        required
-                                    />
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-6 form-group">
-                                        <label className="form-label">Contact Email</label>
-                                        <input
-                                            type="email"
-                                            name="contactEmail"
-                                            className="form-input"
-                                            value={formData.contactEmail}
-                                            onChange={handleChange}
-                                            placeholder="Contact Email"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="col-md-6 form-group">
-                                        <label className="form-label">Contact Phone</label>
-                                        <input
-                                            type="tel"
-                                            name="contactPhone"
-                                            className="form-input"
-                                            value={formData.contactPhone}
-                                            onChange={handleChange}
-                                            placeholder="Contact Phone"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">Website URL</label>
-                                    <input
-                                        type="url"
-                                        name="websiteUrl"
-                                        className="form-input"
-                                        value={formData.websiteUrl}
-                                        onChange={handleChange}
-                                        placeholder="https://example.com"
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">Description</label>
-                                    <textarea
-                                        name="description"
-                                        className="form-input"
-                                        value={formData.description}
-                                        onChange={handleChange}
-                                        placeholder="Tell us about your organization"
-                                        rows="3"
-                                    />
-                                </div>
-                            </>
-                        )}
+
 
                         <button type="submit" className="btn btn-primary btn-lg" disabled={loading}>
                             {loading ? 'Creating account...' : 'Sign Up'}
@@ -277,7 +204,7 @@ const Signup = () => {
                     <div className="auth-footer">
                         <p>
                             Already have an account?{' '}
-                            <span className="link" onClick={() => navigate('/login')}>
+                            <span className="link" onClick={() => navigate('/')}>
                                 Login
                             </span>
                         </p>

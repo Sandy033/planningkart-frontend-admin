@@ -1,19 +1,35 @@
-.landing {
+.landing,
+.auth-page {
     min-height: 100vh;
     background: var(--gradient-hero);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: var(--space-6);
 }
 
-.landing-hero {
+.auth-container {
     width: 100%;
-    padding: var(--space-20) 0;
+    max-width: 500px;
+}
+
+.landing-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.landing-text {
+    text-align: left;
 }
 
 .landing-title {
-    text-align: center;
+    font-size: 3.5rem;
     margin-bottom: var(--space-4);
+    line-height: 1.2;
 }
 
 .landing-title span {
@@ -21,59 +37,108 @@
 }
 
 .landing-subtitle {
-    text-align: center;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     color: var(--text-secondary);
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-8);
 }
 
-.user-type-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--space-8);
-    max-width: 800px;
-    margin: 0 auto var(--space-12);
-}
-
-.user-type-card {
+/* Auth Card Styles copied and adapted from Login.css */
+.auth-card {
     padding: var(--space-8);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.auth-header {
     text-align: center;
-    cursor: pointer;
-    transition: all var(--transition-base);
-}
-
-.user-type-card:hover {
-    transform: translateY(-12px);
-}
-
-.card-icon {
-    font-size: 4rem;
-    margin-bottom: var(--space-4);
-}
-
-.user-type-card h3 {
-    font-size: 1.75rem;
-    margin-bottom: var(--space-3);
-    color: var(--text-primary);
-}
-
-.user-type-card p {
-    font-size: 1rem;
-    color: var(--text-secondary);
     margin-bottom: var(--space-6);
 }
 
-.user-type-card .btn {
-    width: 100%;
+.auth-header h2 {
+    margin-bottom: var(--space-2);
+    color: var(--text-primary);
 }
 
-.landing-footer {
-    text-align: center;
-    margin-top: var(--space-8);
+.auth-header p {
+    color: var(--text-secondary);
 }
 
-.landing-footer p {
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-align: left;
+}
+
+.form-input {
+    padding: var(--space-3);
+    border: 1px solid var(--neutral-300);
+    border-radius: var(--radius-lg);
     font-size: 1rem;
+    transition: all var(--transition-fast);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.btn {
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--primary-600);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-700);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--neutral-200);
+}
+
+.auth-footer p {
+    font-size: 0.875rem;
     color: var(--text-secondary);
     margin: 0;
 }
@@ -90,10 +155,25 @@
     text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-    .user-type-cards {
+.error-message {
+    padding: var(--space-3) var(--space-4);
+    background: var(--error-50);
+    border: 1px solid var(--error-200);
+    border-radius: var(--radius-lg);
+    color: var(--error-600);
+    font-size: 0.875rem;
+    margin-bottom: var(--space-4);
+}
+
+@media (max-width: 900px) {
+    .landing-container {
         grid-template-columns: 1fr;
-        max-width: 400px;
+        text-align: center;
+        gap: var(--space-8);
+    }
+
+    .landing-text {
+        text-align: center;
     }
 
     .landing-title {
@@ -101,6 +181,6 @@
     }
 
     .landing-subtitle {
-        font-size: 1.1rem;
+        font-size: 1.25rem;
     }
 }

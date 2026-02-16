@@ -57,29 +57,7 @@ export const signup = createAsyncThunk(
     }
 );
 
-export const signupOrganizer = createAsyncThunk(
-    'auth/signupOrganizer',
-    async (organizerData, { rejectWithValue }) => {
-        try {
-            const response = await api.post('/auth/organizer/signup', organizerData);
-            // Backend likely returns flat structure similar to login
-            const { token, email: userEmail, role, id } = response.data;
-            const user = { email: userEmail, role, id };
 
-            // Store in localStorage
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-
-            return { token, user };
-        } catch (error) {
-            // Handle validation errors or server errors
-            const message = error.response?.data?.message || 'Organizer signup failed';
-            // If details exist (e.g. field-specific errors), you might want to include them
-            // For now, returning the main message
-            return rejectWithValue(message);
-        }
-    }
-);
 
 const authSlice = createSlice({
     name: 'auth',
@@ -134,21 +112,6 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            // Organizer Signup
-            .addCase(signupOrganizer.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(signupOrganizer.fulfilled, (state, action) => {
-                state.loading = false;
-                state.isAuthenticated = true;
-                state.user = action.payload.user;
-                state.token = action.payload.token;
-            })
-            .addCase(signupOrganizer.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            });
     },
 });
 
