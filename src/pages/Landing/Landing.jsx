@@ -108,15 +108,6 @@ const Landing = () => {
                             {loading ? 'Logging in...' : 'Login'}
                         </button>
                     </form>
-
-                    <div className="auth-footer">
-                        <p>
-                            Don't have an account?{' '}
-                            <span className="link" onClick={() => navigate('/signup')}>
-                                Sign up
-                            </span>
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>
