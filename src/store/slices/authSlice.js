@@ -57,6 +57,20 @@ export const signup = createAsyncThunk(
     }
 );
 
+export const updatePassword = createAsyncThunk(
+    'auth/updatePassword',
+    async ({ currentPassword, newPassword }, { rejectWithValue }) => {
+        try {
+            const response = await api.post('/v1/auth/update-password', {
+                currentPassword,
+                newPassword
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Password update failed');
+        }
+    }
+);
 
 
 const authSlice = createSlice({
@@ -109,6 +123,18 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
             })
             .addCase(signup.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            // Update Password
+            .addCase(updatePassword.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updatePassword.fulfilled, (state) => {
+                state.loading = false;
+            })
+            .addCase(updatePassword.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })

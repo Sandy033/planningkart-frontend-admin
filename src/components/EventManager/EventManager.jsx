@@ -80,16 +80,18 @@ const EventManager = () => {
                                     </span>
                                 </p>
                             </div>
+                        </div>
+                        {event.description && (
+                            <p className="event-description">{event.description}</p>
+                        )}
+                        <div className="event-item-actions" style={{ marginTop: 'auto', paddingTop: '16px' }}>
                             <button
-                                className={`btn btn-sm ${event.isActive ? 'btn-danger' : 'btn-primary'}`}
+                                className={`btn btn-sm ${event.isActive ? 'btn-danger' : 'btn-outline'}`}
                                 onClick={() => handleToggleStatus(event)}
                             >
                                 {event.isActive ? '⏸️ Demote' : '✅ Promote'}
                             </button>
                         </div>
-                        {event.description && (
-                            <p className="event-description">{event.description}</p>
-                        )}
                     </div>
                 ))}
             </div>
