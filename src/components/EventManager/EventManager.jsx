@@ -13,7 +13,7 @@ const EventManager = () => {
     const { items: categories } = useSelector((state) => state.categories);
 
     const handleToggleStatus = async (event) => {
-        await dispatch(toggleEventStatus({ id: event.id, isActive: !event.isActive }));
+        await dispatch(toggleEventStatus({ id: event.id, isActive: event.status !== 'PUBLISHED' }));
     };
 
     const getCategoryName = (categoryId) => {
@@ -23,8 +23,8 @@ const EventManager = () => {
 
     const filteredEvents = events.filter(event => {
         const matchesFilter = filter === 'all' ||
-            (filter === 'active' && event.isActive) ||
-            (filter === 'inactive' && !event.isActive);
+            (filter === 'active' && event.status === 'PUBLISHED') ||
+            (filter === 'inactive' && event.status !== 'PUBLISHED');
         const matchesSearch = event.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             event.description?.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesFilter && matchesSearch;
@@ -55,13 +55,13 @@ const EventManager = () => {
                         className={`btn btn-sm ${filter === 'active' ? 'btn-primary' : 'btn-outline'}`}
                         onClick={() => setFilter('active')}
                     >
-                        Active ({events.filter(e => e.isActive).length})
+                        Active ({events.filter(e => e.status === 'PUBLISHED').length})
                     </button>
                     <button
                         className={`btn btn-sm ${filter === 'inactive' ? 'btn-primary' : 'btn-outline'}`}
                         onClick={() => setFilter('inactive')}
                     >
-                        Inactive ({events.filter(e => !e.isActive).length})
+                        Inactive ({events.filter(e => e.status !== 'PUBLISHED').length})
                     </button>
                 </div>
             </div>

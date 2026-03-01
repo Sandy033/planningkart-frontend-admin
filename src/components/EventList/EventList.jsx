@@ -83,12 +83,12 @@ const EventListCard = ({ event, onToggleStatus, categoryName }) => {
                 </div>
             }
 
-            {/* Status pill — top-right overlay — Using isActive for Admin */}
+            {/* Status pill — top-right overlay — Using status for Admin */}
             <span
                 className="el-status-badge"
-                style={{ background: event.isActive ? '#10b981' : '#ef4444' }}
+                style={{ background: event.status === 'PUBLISHED' ? '#10b981' : '#ef4444' }}
             >
-                {event.isActive ? 'Active' : 'Inactive'}
+                {event.status === 'PUBLISHED' ? 'Published' : 'Unpublished'}
             </span>
 
             {/* Card body */}
@@ -140,10 +140,10 @@ const EventListCard = ({ event, onToggleStatus, categoryName }) => {
                         View Details
                     </button>
                     <button
-                        className={`el-btn ${event.isActive ? 'el-btn-danger' : 'el-btn-outline'}`}
+                        className={`el-btn ${event.status === 'PUBLISHED' ? 'el-btn-danger' : 'el-btn-outline'}`}
                         onClick={() => onToggleStatus(event)}
                     >
-                        {event.isActive ? 'Demote' : 'Promote'}
+                        {event.status === 'PUBLISHED' ? 'Unpublish' : 'Publish'}
                     </button>
                 </div>
             </div>

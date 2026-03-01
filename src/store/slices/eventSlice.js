@@ -20,7 +20,9 @@ export const toggleEventStatus = createAsyncThunk(
     'events/toggleEventStatus',
     async ({ id, isActive }, { rejectWithValue }) => {
         try {
-            const response = await api.patch(`/v1/events/${id}/status`, { isActive });
+            // Using existing publish/unpublish API
+            const endpoint = isActive ? `/v1/events/${id}/publish` : `/v1/events/${id}/unpublish`;
+            const response = await api.post(endpoint);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to update event status');

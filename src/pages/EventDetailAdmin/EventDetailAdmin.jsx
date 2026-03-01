@@ -91,7 +91,9 @@ const EventDetailAdmin = () => {
 
     const handleToggleStatus = async () => {
         try {
-            await api.patch(`/v1/events/${event.id}/status`, { isActive: !event.isActive });
+            const isPublishing = event.status !== 'PUBLISHED';
+            const endpoint = isPublishing ? `/v1/events/${event.id}/publish` : `/v1/events/${event.id}/unpublish`;
+            await api.post(endpoint);
             fetchEvent(); // reload event to get new status
         } catch (err) {
             console.error('Failed to update event status', err);
@@ -138,10 +140,10 @@ const EventDetailAdmin = () => {
                         ← Back to Dashboard
                     </button>
                     <button
-                        className={`btn ${event.isActive ? 'btn-danger' : 'btn-primary'}`}
+                        className={`btn ${event.status === 'PUBLISHED' ? 'btn-danger' : 'btn-primary'}`}
                         onClick={handleToggleStatus}
                     >
-                        {event.isActive ? '⏸️ Demote Event' : '✅ Promote Event'}
+                        {event.status === 'PUBLISHED' ? 'Unpublish Event' : 'Publish Event'}
                     </button>
                 </div>
 
@@ -155,8 +157,8 @@ const EventDetailAdmin = () => {
 
                 {/* Top metadata row */}
                 <div className="ed-meta-row">
-                    <span className="ed-status-pill" style={{ background: event.isActive ? '#10b981' : '#ef4444' }}>
-                        {event.isActive ? 'Active' : 'Inactive'}
+                    <span className="ed-status-pill" style={{ background: event.status === 'PUBLISHED' ? '#10b981' : '#ef4444' }}>
+                        {event.status === 'PUBLISHED' ? 'Published' : 'Unpublished'}
                     </span>
                     {category?.name && (
                         <span className="ed-cat-pill">{category.name}</span>
