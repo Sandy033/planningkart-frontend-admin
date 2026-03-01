@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleEventStatus } from '../../store/slices/eventSlice';
+import EventList from '../EventList/EventList';
 import './EventManager.css';
 
 const EventManager = () => {
@@ -67,40 +68,10 @@ const EventManager = () => {
 
             {loading && <p>Loading events...</p>}
 
-            <div className="event-list">
-                {filteredEvents.map((event) => (
-                    <div key={event.id} className="event-item card-glass">
-                        <div className="event-item-header">
-                            <div>
-                                <h4>{event.name}</h4>
-                                <p className="event-meta">
-                                    <span className="category-badge">{getCategoryName(event.categoryId)}</span>
-                                    <span className={`status-badge ${event.isActive ? 'active' : 'inactive'}`}>
-                                        {event.isActive ? '✅ Active' : '⏸️ Inactive'}
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        {event.description && (
-                            <p className="event-description">{event.description}</p>
-                        )}
-                        <div className="event-item-actions" style={{ marginTop: 'auto', paddingTop: '16px' }}>
-                            <button
-                                className={`btn btn-sm ${event.isActive ? 'btn-danger' : 'btn-outline'}`}
-                                onClick={() => handleToggleStatus(event)}
-                            >
-                                {event.isActive ? '⏸️ Demote' : '✅ Promote'}
-                            </button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {filteredEvents.length === 0 && !loading && (
-                <div className="empty-state">
-                    <p>No events found.</p>
-                </div>
-            )}
+            <EventList
+                events={filteredEvents}
+                onToggleStatus={handleToggleStatus}
+            />
         </div>
     );
 };

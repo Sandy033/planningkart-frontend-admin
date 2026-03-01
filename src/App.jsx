@@ -6,6 +6,7 @@ import Landing from './pages/Landing/Landing';
 
 import Signup from './pages/Signup/Signup';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import EventDetailAdmin from './pages/EventDetailAdmin/EventDetailAdmin';
 
 import './App.css';
 
@@ -23,6 +24,14 @@ function App() {
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/events/:id"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <EventDetailAdmin />
               </ProtectedRoute>
             }
           />
