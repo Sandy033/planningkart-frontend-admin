@@ -135,17 +135,7 @@ const EventDetailAdmin = () => {
             <Navbar />
             <div className="ed-container">
 
-                <div className="ed-header-actions" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', alignItems: 'center' }}>
-                    <button className="btn btn-outline" onClick={() => navigate('/admin')}>
-                        ← Back to Dashboard
-                    </button>
-                    <button
-                        className={`btn ${event.status === 'PUBLISHED' ? 'btn-danger' : 'btn-primary'}`}
-                        onClick={handleToggleStatus}
-                    >
-                        {event.status === 'PUBLISHED' ? 'Unpublish Event' : 'Publish Event'}
-                    </button>
-                </div>
+
 
                 {/* Hero: image gallery */}
                 {mediaList.length > 0
@@ -244,6 +234,16 @@ const EventDetailAdmin = () => {
                         </div>
                     </section>
                 )}
+
+                <div className="ed-footer-actions" style={{ marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid #e5e7eb' }}>
+                    <button
+                        className={`btn ${event.status === 'PUBLISHED' ? 'btn-danger' : 'btn-primary'}`}
+                        style={{ width: '100%' }}
+                        onClick={handleToggleStatus}
+                    >
+                        {event.status === 'PUBLISHED' ? 'Unpublish Event' : 'Publish Event'}
+                    </button>
+                </div>
             </div>
         </div>
     );

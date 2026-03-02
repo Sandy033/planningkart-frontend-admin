@@ -32,6 +32,16 @@
     transition: color var(--transition-fast);
 }
 
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    transition: transform var(--transition-base);
+}
+
+.navbar-logo:hover .logo-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
 .navbar-logo span {
     color: var(--accent-500);
 }

@@ -56,7 +56,8 @@ const Navbar = () => {
             <nav className="navbar">
                 <div className="navbar-container">
                     <div className="navbar-logo" onClick={() => navigate('/')}>
-                        <span>Planning</span>Kart
+                        <img src="/planningkart-icon.svg" alt="PlanningKart Admin" className="logo-icon" />
+                        Planning<span>Kart</span>{' '}
                     </div>
 
                     {user && (
