@@ -92,10 +92,10 @@
     position: absolute;
     top: calc(100% + var(--space-2));
     right: 0;
+    min-width: 280px;
     background: white;
     border-radius: var(--radius-lg);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-    min-width: 200px;
     border: 1px solid rgba(0, 0, 0, 0.05);
     padding: var(--space-2) 0;
     animation: fadeInUnscale 0.2s ease-out;

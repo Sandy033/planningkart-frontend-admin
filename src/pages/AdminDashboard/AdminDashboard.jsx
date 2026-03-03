@@ -25,18 +25,28 @@ const AdminDashboard = () => {
                     <p>Manage event categories and moderate events</p>
                 </div>
 
+                {/* Mobile: native dropdown */}
+                <select
+                    className="dashboard-tabs-mobile"
+                    value={activeTab}
+                    onChange={e => setActiveTab(e.target.value)}
+                >
+                    <option value="categories">Event Categories</option>
+                    <option value="events">Event Management</option>
+                </select>
+
                 <div className="dashboard-tabs">
                     <button
-                        className={`tab-button ${activeTab === 'categories' ? 'active' : ''}`}
+                        className={`tab-btn ${activeTab === 'categories' ? 'active' : ''}`}
                         onClick={() => setActiveTab('categories')}
                     >
-                        📁 Event Categories
+                        Event Categories
                     </button>
                     <button
-                        className={`tab-button ${activeTab === 'events' ? 'active' : ''}`}
+                        className={`tab-btn ${activeTab === 'events' ? 'active' : ''}`}
                         onClick={() => setActiveTab('events')}
                     >
-                        🎯 Event Management
+                        Event Management
                     </button>
                 </div>
 

@@ -21,7 +21,9 @@ const EventManager = () => {
         return category?.name || 'Unknown';
     };
 
-    const filteredEvents = events.filter(event => {
+    const displayEvents = events.filter(e => e.status !== 'DRAFT');
+
+    const filteredEvents = displayEvents.filter(event => {
         const matchesFilter = filter === 'all' ||
             (filter === 'active' && event.status === 'PUBLISHED') ||
             (filter === 'inactive' && event.status !== 'PUBLISHED');
@@ -49,19 +51,19 @@ const EventManager = () => {
                         className={`btn btn-sm ${filter === 'all' ? 'btn-primary' : 'btn-outline'}`}
                         onClick={() => setFilter('all')}
                     >
-                        All ({events.length})
+                        All ({displayEvents.length})
                     </button>
                     <button
                         className={`btn btn-sm ${filter === 'active' ? 'btn-primary' : 'btn-outline'}`}
                         onClick={() => setFilter('active')}
                     >
-                        Active ({events.filter(e => e.status === 'PUBLISHED').length})
+                        Active ({displayEvents.filter(e => e.status === 'PUBLISHED').length})
                     </button>
                     <button
                         className={`btn btn-sm ${filter === 'inactive' ? 'btn-primary' : 'btn-outline'}`}
                         onClick={() => setFilter('inactive')}
                     >
-                        Inactive ({events.filter(e => e.status !== 'PUBLISHED').length})
+                        Inactive ({displayEvents.filter(e => e.status !== 'PUBLISHED').length})
                     </button>
                 </div>
             </div>

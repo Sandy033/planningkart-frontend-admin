@@ -60,21 +60,18 @@ const CategoryManager = () => {
 
     const handleNameChange = (e) => {
         const name = e.target.value;
-        // Auto-generate slug only if crafting a new category or if we want to simple auto-fill behavior
-        // For better UX during edit, we ideally only touch slug if it wasn't manually modified, but simplified here:
-        // Only auto-gen slug if not editing an existing category (preserve existing slugs unless manually changed)
-        if (!editingCategory) {
-            const slug = generateSlug(name);
-            setFormData(prev => ({ ...prev, name, slug }));
-        } else {
-            setFormData(prev => ({ ...prev, name }));
-        }
+        setFormData(prev => ({ ...prev, name }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Auto-compute slug right before sending
+        const computedSlug = formData.slug || generateSlug(formData.name);
+
         const payload = {
             ...formData,
+            slug: computedSlug,
             parentCategory: formData.parentCategory ? { id: formData.parentCategory } : null
         };
 
@@ -114,9 +111,8 @@ const CategoryManager = () => {
                         <div className="category-info">
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 {category.iconUrl && <img src={category.iconUrl} alt="" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />}
-                                <h4>{category.name}</h4>
+                                <h4 style={{ marginBottom: category.description || category.parentCategory ? '4px' : '0' }}>{category.name}</h4>
                             </div>
-                            <small style={{ color: '#666', display: 'block', marginBottom: '4px' }}>/{category.slug}</small>
                             {category.description && <p className="category-description">{truncateDescription(category.description)}</p>}
                             {category.parentCategory && (
                                 <span className="badge" style={{ background: '#e0e7ff', color: '#4f46e5', fontSize: '0.75rem', padding: '2px 6px', borderRadius: '4px' }}>
@@ -156,17 +152,7 @@ const CategoryManager = () => {
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">Slug</label>
-                        <input
-                            type="text"
-                            className="form-input"
-                            value={formData.slug}
-                            onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                            placeholder="URL-friendly identifier"
-                            required
-                        />
-                    </div>
+
 
                     <div className="form-group">
                         <label className="form-label">Icon URL</label>
