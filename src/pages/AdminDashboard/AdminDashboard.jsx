@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Navbar from '../../components/Navbar/Navbar';
 import { fetchCategories } from '../../store/slices/categorySlice';
@@ -11,10 +11,19 @@ const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('categories');
     const dispatch = useDispatch();
 
+    const { items: categories, loading: categoriesLoading } = useSelector(state => state.categories);
+    const { items: events, loading: eventsLoading } = useSelector(state => state.events);
+
+    // Use a ref to guarantee we only trigger the fetch once per component mount
+    const hasFetched = React.useRef(false);
+
     useEffect(() => {
-        dispatch(fetchCategories());
-        dispatch(fetchEvents());
-    }, [dispatch]);
+        if (!hasFetched.current) {
+            hasFetched.current = true;
+            if (categories.length === 0) dispatch(fetchCategories());
+            if (events.length === 0) dispatch(fetchEvents());
+        }
+    }, [dispatch, categories.length, events.length]);
 
     return (
         <div className="dashboard">
